@@ -1,0 +1,17 @@
+POST http://localhost:3005/signUp
+Content-Type: application/json
+
+{
+  "username": "testuser3",
+  "password": "testPassword",
+  "isAdmin": true
+}
+
+###
+POST http://localhost:3005/signIn
+Content-Type: application/json
+
+{
+  "username": "testuser3",
+  "password": "testPassword"
+}

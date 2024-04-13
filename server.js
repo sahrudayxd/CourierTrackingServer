@@ -103,6 +103,17 @@ app.post("/signIn", async (request, response) => {
   );
 });
 
+app.get("/users", (req, res) => {
+  db.all("SELECT * FROM users", [], (err, rows) => {
+    if (err) {
+      console.error(err.message);
+      res.status(500).json({ error: "Failed to get users" });
+    } else {
+      res.json({ Packages: rows });
+    }
+  });
+});
+
 const PORT = 3005;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

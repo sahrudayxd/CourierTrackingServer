@@ -79,7 +79,7 @@ app.post("/signIn", async (request, response) => {
       if (!user) {
         return response
           .status(400)
-          .send("Invalid username. Enter a valid username.");
+          .send({ message: "Invalid username. Enter a valid username."});
       }
 
       // Check if password matches
@@ -87,7 +87,7 @@ app.post("/signIn", async (request, response) => {
       if (!isPasswordMatched) {
         return response
           .status(400)
-          .send("Invalid password. Enter valid password.");
+          .send({message: "Invalid password. Enter valid password."});
       }
 
       const jwtToken = generateJWTToken({ username });

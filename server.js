@@ -8,7 +8,13 @@ const jwt = require("jsonwebtoken");
 const app = express();
 app.use(express.json());
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: "GET,POST",
+    optionsSuccessStatus: 200,
+  })
+);
 
 // Define database path
 const dbPath = "server.db";
@@ -101,6 +107,35 @@ app.post("/signIn", async (request, response) => {
       });
     }
   );
+});
+
+app.get("/movies", (req, res) => {
+  const jwtToken =
+    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MWEyZDg2NWNiNjFiMTQwMTU1ZTIzYjIwMzc2YThmNyIsInN1YiI6IjY2MmExZDExNGNiZTEyMDBhNmZhMGE1ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vBkdYIsoVuVgXXkTT28lEiBw4RepBp3bRIcOF34Y1Ds";
+  const url = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=1`;
+
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${jwtToken}`,
+    },
+  };
+
+  fetch(url, options)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      res.json(data); // Send the JSON response to the client
+    })
+    .catch((error) => {
+      console.error("Error fetching movies:", error);
+      res.status(500).json({ error: "Internal Server Error" }); // Send an error response to the client
+    });
 });
 
 const PORT = 3005;

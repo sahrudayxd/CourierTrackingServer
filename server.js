@@ -85,7 +85,7 @@ app.post("/signIn", async (request, response) => {
       if (!user) {
         return response
           .status(400)
-          .send("Invalid username. Enter a valid username.");
+          .send({ message: "Invalid username. Enter a valid username."});
       }
 
       // Check if password matches
@@ -93,7 +93,7 @@ app.post("/signIn", async (request, response) => {
       if (!isPasswordMatched) {
         return response
           .status(400)
-          .send("Invalid password. Enter valid password.");
+          .send({message: "Invalid password. Enter valid password."});
       }
 
       const jwtToken = generateJWTToken({ username });
@@ -109,6 +109,7 @@ app.post("/signIn", async (request, response) => {
   );
 });
 
+<<<<<<< HEAD
 app.get("/movies", (req, res) => {
   const jwtToken =
     "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MWEyZDg2NWNiNjFiMTQwMTU1ZTIzYjIwMzc2YThmNyIsInN1YiI6IjY2MmExZDExNGNiZTEyMDBhNmZhMGE1ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vBkdYIsoVuVgXXkTT28lEiBw4RepBp3bRIcOF34Y1Ds";
@@ -136,6 +137,17 @@ app.get("/movies", (req, res) => {
       console.error("Error fetching movies:", error);
       res.status(500).json({ error: "Internal Server Error" }); // Send an error response to the client
     });
+=======
+app.get("/users", (req, res) => {
+  db.all("SELECT * FROM users", [], (err, rows) => {
+    if (err) {
+      console.error(err.message);
+      res.status(500).json({ error: "Failed to get users" });
+    } else {
+      res.json({ Packages: rows });
+    }
+  });
+>>>>>>> 264151565c41118c8b7088b68b7f8dc0776d4fa0
 });
 
 const PORT = 3005;
